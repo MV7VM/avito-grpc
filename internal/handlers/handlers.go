@@ -20,9 +20,19 @@ func New(service service) *Handlers {
 }
 func (h *Handlers) Post(c *fiber.Ctx) error {
 	// Read the param noteId
-	link := c.Params("Link")
-	fmt.Println("Post - ", link)
-	msg, err := h.service.Create(link)
+	//link := c.Params("Link")
+	//var shortUrl model.Links
+	type shortLink struct {
+		ShortUrl string `json:"shortUrl"`
+	}
+	var shortUrl shortLink
+	err := c.BodyParser(&shortUrl)
+	if err != nil {
+		//log.Fatal(err)
+		return err
+	}
+	fmt.Println("Post - ", shortUrl.ShortUrl)
+	msg, err := h.service.Create(shortUrl.ShortUrl)
 	if err != nil {
 		return c.SendStatus(http.StatusBadRequest)
 	}

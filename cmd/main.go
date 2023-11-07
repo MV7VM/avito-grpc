@@ -31,7 +31,7 @@ func main() {
 	}()
 	app.service = service.New(app.repository)
 	app.handlers = handlers.New(app.service)
-	app.routers.Post("/:Link", app.handlers.Post)
+	app.routers.Post("/", app.handlers.Post)
 	app.routers.Get("/:Link", app.handlers.Get)
 	err := app.routers.Listen(":3000")
 	if err != nil {

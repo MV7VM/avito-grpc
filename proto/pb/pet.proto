@@ -1,0 +1,35 @@
+syntax = "proto3";
+package your.service.v1;
+option go_package = "avito/pkg/pb";
+
+import "proto/google/api/annotations.proto";
+
+message CreateUrlRequest {
+  string url = 1;
+}
+
+message CreateUrlResponse {
+  string shortUrl = 1;
+}
+
+message GetUrlRequest {
+  string url = 1;
+}
+
+message GetUrlResponse {
+  string originalUrl = 1;
+}
+
+service YourService {
+  rpc Create(CreateUrlRequest) returns (CreateUrlResponse) {
+    option (google.api.http) = {
+      post: "/create"
+      body: "*"
+    };
+  }
+  rpc Get(GetUrlRequest) returns (GetUrlResponse) {
+    option (google.api.http) = {
+      get: "/get/{url}"
+    };
+  }
+}
